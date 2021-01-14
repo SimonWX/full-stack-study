@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UFT-8">
+  <title>Vue的基本使用</title>
+</head>
+
+<body>
+  <div id="app">
+    <!--vue的模版语法, {{}}双大括号插值 react用{} -->
+    <!-- 可插入 变量，算式，操作，三元表达式，对象等 -->
+    <h2>{{msg}}</h2>
+    <h3>{{3+6}}</h3>
+    <h3>{{isTrue}}</h3>
+    <h4>{{str.split('').reverse().join('')}}</h4>
+    <h5>{{1>2?'真的':'假的'}}</h5>
+    <h6>{{ { name: 'xuhao' } }}</h6>
+
+    <img src="./imgs/basic_01_mvvm.jpg" style='width:800px; height: 600px;'>
+  </div>
+  <!-- 1. 引包 -->
+  <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+  <!-- 2. 创建实例化对象 -->
+  <script type="text/javascript">
+    // 如果template中定义了内容，那么优先家在template模版，否则家在#app的内容
+
+    // 数据发生改变时，视图发生改变，即数据驱动视图
+    var data = {
+      // 数据属性
+      // 即可以是对象，也可以是函数
+      msg: '黄瓜777',
+      isTrue: 1 == 1,
+      str: 'hello, xuhao'
+    }
+
+    var vm = new Vue({
+      el: '#app', // 目的地
+      data: data,
+      template: ''
+      // `<div>{{msg}}</div>`
+    });
+    console.log(`vm.$el === document.getElementById('app')：`,vm.$el === document.getElementById('app'));
+    console.log('vm.$data：', vm.$data)
+    console.log(`vm.$data === data：`,vm.$data === data);
+    // 除了数据属性，vue实例还暴露一些游泳的实例属性和方法，他们都有前缀$
+  </script>
+</body>
+
+</html>

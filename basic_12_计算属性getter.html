@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>计算属性的使用</title>
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #app {
+      width: 350px;
+      height: 400px;
+      margin: 40px auto;
+      border: 1px solid #cccccc;
+      padding: 30px;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    ul li {
+      margin: 20px 0px;
+      padding: 10px 5px;
+      border-radius: 3px;
+      text-indent: 15px;
+    }
+    ul li.active{
+      background-color: #24b95f;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    ul li p,ul li h3{
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <audio :src="getCurrentSongSrc " autoplay controls>
+    </audio>
+    <ul>
+      <li v-for="(item, index) in musicData" @click="clickHandler(index)" :class="{active: currentIndex === index}">
+        <h3>{{item.id}}. 歌名： {{item.name}}</h3>
+        <p>歌手： {{item.songSrc}}</p>
+      </li>
+    </ul>
+  </div>
+
+  <script type="text/javascript" src="node_modules/vue/dist/vue.min.js"></script>
+  <script type="text/javascript">
+    var musicData = [
+      { id: 1, name: '想念你', author: '佚名', songSrc: './static/想念你.mp3' },
+      { id: 2, name: '触手可及的幸福', author: '佚名', songSrc: './static/触手可及的幸福.mp3' }
+    ]
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          musicData: musicData,
+          currentIndex: 0
+        }
+      },
+      computed: {
+        // 计算属性默认只有getter
+        getCurrentSongSrc: function () {
+          return this.musicData[this.currentIndex].songSrc
+        }
+      },
+      methods: {
+        clickHandler(index){
+          this.currentIndex = index
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

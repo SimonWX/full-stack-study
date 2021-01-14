@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue的指令系统</title>
+  <style type="text/css">
+    .box{
+      width: 300px;
+      height: 300px;
+      background: orange;
+    }
+    .active{
+      background: green;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+
+  </div>
+  <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+  <script type="text/javascript">
+    // 创建实例化对象
+
+    // 双打括号插值 {{}}
+    // v-text  即原生的innerText
+    // v-html  即原生的innerHtml
+    // v-if    数据属性对应的值如果为假，则不再页面中渲染，反之亦然
+    // v-show  控制dom元素的显示隐藏display：none｜block
+    // 控制类名对元素显示隐藏
+    // v-bind  绑定标签上的属性（内置属性和自定义属性）简写 ：
+    // v-on:原生事件名 = '函数名' 简写 @
+    // v-for = '(item, index) in menuLists'
+
+    /* v-if 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。
+      
+      v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
+      
+      相比之下，v-show 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。
+      
+      一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。
+      因此，如果需要非常频繁地切换，则使用 v-show 较好；
+      如果在运行时条件很少改变，则使用 v-if 较好。 
+    */
+
+    var vm = new Vue({
+      el: '#app',
+      data: function () {
+        return {
+          // 数据属性
+          msg: '指令系统',
+          msg2: '<h2>指令系统</h2>',
+          isShow: false,
+          isOrange: true,
+          text: '哈哈哈',
+          menuLists: [
+            {id: 1, name: '苹果', price: 4},
+            {id: 2, name: '香蕉', price: 5},
+            {id: 3, name: '樱桃', price: 6}
+          ],
+          person: {
+            name: 'hu',
+            age: '23',
+            fav: 'fruits'
+          }
+        }
+      },
+      template: `
+        <div class='app'>
+          <h2>{{msg}}</h2>
+          <p v-text="msg"></p>
+          <div v-html="msg2"></div>
+          <div v-text="1+1"></div>
+
+          <div v-if="isShow">开场了</div>
+          <div v-if="!isShow">结束了</div>
+
+          <div v-if="Math.random()>0.5">已显示</div>
+          <div v-else>已隐藏</div>
+
+          <div v-show="isShow">开业了</div>
+          <div v-show="!isShow">关门了</div>
+
+          <div class="box" v-on:click="clickHandler" v-bind:class="{active: !isOrange}" v-bind:aaa="text"></div>
+          <ul>
+            <li v-for='(item, index) in menuLists'>
+              <h5 v-text='item.id'></h5>
+              <h3>{{item.name}}</h3>
+              <em>{{item.price}}</em>
+            </li>
+          </ul>
+          <ul>
+            <li v-for="(value, key) in person">
+              {{key}}--{{value}}</li>
+          </ul>
+        </div>
+      `,
+      methods: {
+        clickHandler(e){
+          console.log('this === vm',this === vm)
+          this.isOrange = !this.isOrange;
+        }
+      }
+    });
+    console.log(vm)
+  </script>
+</body>
+
+</html>
