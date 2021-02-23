@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue多层父子组件通信-provider和inject</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+  <script>
+    /*
+      父组件中通过provide来提供变量，然后在子组件中通过inject来注入变量。
+      不论子组件有多深，只要调用了inject那么就可以注入provide中的数据。
+      而不是局限于只能从当前父组件的prop属性来获取数据，只要在父组件的生命周期内，子组件都可以调用。 
+    */
+
+    Vue.component('Child', {
+      data(){
+        return {
+          msg: ''
+        }
+      },
+      template: `
+        <div>
+          我是孩子 + {{msg}}【此消息来自入口组件的数据】
+        </div>
+      `,
+      inject: ['for'],
+      created(){
+        this.msg = this.for;
+      }
+    });
+
+    Vue.component('Parent', {
+      data(){
+        return {
+            
+        }
+      },
+      template: `
+        <div>
+          <p>我是父亲</p>
+          <Child></Child>  
+        </div>
+      `,
+      methods: {
+
+      }
+    })
+
+    
+
+    var App = {
+      data(){
+        return {
+        }
+      },
+      provide: {
+        for: '他爹'
+      },
+      template: `  
+        <div>
+          <h2>我是入口组件</h2>
+          <Parent />  
+        </div>
+      `,
+    }
+
+    
+
+
+    new Vue({
+      el: '#app',
+      data(){
+        return {
+
+        }
+      },
+      components: {
+        App
+      },
+      template: '<App />'
+    });  
+  </script> 
+</body>
+</html>
